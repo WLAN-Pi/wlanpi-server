@@ -1,6 +1,8 @@
 # WLAN Pi Server Mode
 WLAN Pi Server mode for the RPi/CM4 based platforms
 
+(__Note: In this initial version, only 2.4GHz operation is supported due to platform support issues - this is under investigation__)
+
 *Turn your WLAN Pi into a DHCP server, TFTP server and terminal server (Wi-Fi Console) at the same time*
 
 The WLAN Pi server mode enables use cases like lab build, software upgrade of your network appliances or AP and staging with no additional servers or apps. Simply plug your WLAN Pi into your lab switch and let it provide all services.
@@ -18,8 +20,7 @@ Wireless subnet: 192.168.74.0/24
 
 To use server mode on your WLAN Pi, you will need:
 
-- WLAN Pi running release 2.0 or newer
-- optionally a supported USB Wi-Fi adapter plugged into the WLAN Pi (e.g. Comfast CF-912AC, adapter with MediaTek MTK7612U chipset) if you wish to access the WLAN Pi and the wired network wirelessly
+- WLAN Pi Pro device
 
 ## Configurations Options
 
@@ -27,13 +28,13 @@ It is very likely that you will not want to use this utility with the default sh
 
 * shared key: wifipros
 * ssid: wlanpi_server
-* channel: 36
+* channel: 6
 
-To change from default settings, ensure that the WLAN Pi is operating in its default "classic" mode. Then edit the file: /etc/wlanpiserver/conf/hostapd.conf. This can be done by opening an SSH session to the WLANPi and using the 'nano' editor:
+To change from default settings, ensure that the WLAN Pi is operating in its default "classic" mode. Then edit the file: /etc/wlanpi-server/conf/hostapd.conf. This can be done by opening an SSH session to the WLANPi and using the 'nano' editor:
 
 ```
  ssh wlanpi@192.168.73.1
- sudo nano /etc/wlanpiserver/conf/hostapd.conf
+ sudo nano /etc/wlanpi-server/conf/hostapd.conf
 ```
 
 There are numerous fields you can configure to change the behaviour of the hotspot access point feature, but here are some of the more likely fields you'll want to look at and perhaps update (note that lines beginning with a # character are comments and do not affect operation):
