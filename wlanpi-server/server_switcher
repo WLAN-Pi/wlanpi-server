@@ -82,7 +82,7 @@ server_on () {
   ln -s /etc/wlanpi-server/default/ufw /etc/default/ufw
   ln -s /etc/wlanpi-server/ufw/before.rules /etc/ufw/before.rules
   #Intentionally using wconsole config file
-  ln -s /etc/wconsole/conf/ser2net.conf /etc/ser2net.conf
+  ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
 
   # Open up console ports on FW 
   ufw allow 2400:2408/tcp
@@ -118,7 +118,7 @@ server_off () {
   # check what state the WLAN Pi is in
   PI_STATUS=`cat $STATUS_FILE | grep 'server'` || true
   if  [ -z "$PI_STATUS" ]; then
-     echo "Failed - WLAN Pi is not in wconsole mode."
+     echo "Failed - WLAN Pi is not in server mode."
      exit 1
   fi
 
