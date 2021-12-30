@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# "wlanpi-hotspot" postinst script
+# "wlanpi-server" postinst script
 #
 
 # hostapd is installed with service masked, need to umask 
