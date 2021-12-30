@@ -124,7 +124,7 @@ run_tests () {
   symlink_exists "/etc/default/isc-dhcp-server"
   symlink_exists "/etc/dhcp/dhcpd.conf"
   symlink_exists "/etc/network/interfaces"
-  symlink_exists "/etc/hostapd.conf"
+  symlink_exists "/etc/hostapd/hostapd.conf"
   symlink_exists "/etc/sysctl.conf"
   symlink_exists "/etc/default/ufw"
   symlink_exists "/etc/ufw/before.rules"
@@ -137,7 +137,7 @@ run_tests () {
 
   # check default SSID configured
   info "Checking hostapd SSID is default"
-  check `cat /etc/hostapd.conf | grep ssid="${SSID}"`
+  check `cat /etc/hostapd/hostapd.conf | grep ssid="${SSID}"`
 
   # check wlan port is in correct state (Mode:Master)
   info "Checking wlan adapter in master mode"

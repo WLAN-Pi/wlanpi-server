@@ -110,7 +110,7 @@ run_tests () {
   dir_exists "/etc/wlanpi-server"
 
   # check various files exist after switch back
-  file_exists "/etc/hostapd.conf"
+  file_exists "/etc/hostapd/hostapd.conf"
   file_exists "/etc/default/isc-dhcp-server"
   file_exists "/etc/default/ufw"
   file_exists "/etc/dhcp/dhcpd.conf"
@@ -123,7 +123,7 @@ run_tests () {
   symlink_not "/etc/network/interfaces"
   symlink_not "/etc/default/isc-dhcp-server"
   symlink_not "/etc/dhcp/dhcpd.conf"
-  symlink_not "/etc/hostapd.conf"
+  symlink_not "/etc/hostapd/hostapd.conf"
   symlink_not "/etc/sysctl.conf"
   symlink_not "/etc/default/ufw"
   symlink_not "/etc/ufw/before.rules"

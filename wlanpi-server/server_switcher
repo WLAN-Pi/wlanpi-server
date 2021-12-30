@@ -51,8 +51,8 @@ server_on () {
   cp /etc/default/ufw /etc/default/ufw.serv
   cp /etc/ufw/before.rules /etc/ufw/before.rules.serv
   # This file may or may not exist
-  if [ -e /etc/hostapd.conf ]; then
-    cp /etc/hostapd.conf /etc/hostapd.conf.serv
+  if [ -e /etc/hostapd/hostapd.conf ]; then
+    cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.serv
   fi
   if [ -e /etc/ser2net.conf ]; then
     cp /etc/ser2net.conf /etc/ser2net.conf.serv
@@ -66,21 +66,21 @@ server_on () {
   rm /etc/default/ufw
   rm /etc/ufw/before.rules
   # This file may or may not exist
-  if [ -e /etc/hostapd.conf ]; then
-    rm /etc/hostapd.conf
+  if [ -e /etc/hostapd/hostapd.conf ]; then
+    rm /etc/hostapd/hostapd.conf
   fi
   if [ -e /etc/ser2net.conf ]; then
     rm /etc/ser2net.conf
   fi
   # Link to server config files
   echo "Creating links to config files..."
-  ln -s /etc/wlanpiserver/default/isc-dhcp-server /etc/default/isc-dhcp-server
-  ln -s /etc/wlanpiserver/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
-  ln -s /etc/wlanpiserver/network/interfaces /etc/network/interfaces
-  ln -s /etc/wlanpiserver/conf/hostapd.conf /etc/hostapd.conf
-  ln -s /etc/wlanpiserver/sysctl/sysctl.conf /etc/sysctl.conf
-  ln -s /etc/wlanpiserver/default/ufw /etc/default/ufw
-  ln -s /etc/wlanpiserver/ufw/before.rules /etc/ufw/before.rules
+  ln -s /etc/wlanpi-server/default/isc-dhcp-server /etc/default/isc-dhcp-server
+  ln -s /etc/wlanpi-server/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
+  ln -s /etc/wlanpi-server/network/interfaces /etc/network/interfaces
+  ln -s /etc/wlanpi-server/conf/hostapd.conf /etc/hostapd/hostapd.conf
+  ln -s /etc/wlanpi-server/sysctl/sysctl.conf /etc/sysctl.conf
+  ln -s /etc/wlanpi-server/default/ufw /etc/default/ufw
+  ln -s /etc/wlanpi-server/ufw/before.rules /etc/ufw/before.rules
   #Intentionally using wconsole config file
   ln -s /etc/wconsole/conf/ser2net.conf /etc/ser2net.conf
 
@@ -129,7 +129,7 @@ server_off () {
   unlink /etc/default/isc-dhcp-server
   unlink /etc/dhcp/dhcpd.conf
   unlink /etc/network/interfaces
-  unlink /etc/hostapd.conf
+  unlink /etc/hostapd/hostapd.conf
   unlink /etc/sysctl.conf
   unlink /etc/default/ufw
   unlink /etc/ufw/before.rules
@@ -144,8 +144,8 @@ server_off () {
   cp /etc/default/ufw.serv /etc/default/ufw
   cp /etc/ufw/before.rules.serv /etc/ufw/before.rules
   # This file may or may not exist
-  if [ -e /etc/hostapd.conf.serv ]; then
-    cp /etc/hostapd.conf.serv /etc/hostapd.conf
+  if [ -e /etc/hostapd/hostapd.conf.serv ]; then
+    cp /etc/hostapd/hostapd.conf.serv /etc/hostapd/hostapd.conf
   fi
   if [ -e /etc/ser2net.conf.serv ]; then
     cp /etc/ser2net.conf.serv /etc/ser2net.conf
@@ -180,7 +180,7 @@ status () {
 }
 
 version () {
-    N=/etc/wlanpiserver/$NAME
+    N=/etc/wlanpi-server/$NAME
         echo "Version: $N $VERSION" >&2
         exit 1
 
@@ -202,7 +202,7 @@ case "$1" in
   version)
         version;;
   *)
-        N=/etc/wlanpiserver/$NAME
+        N=/etc/wlanpi-server/$NAME
         echo "Usage: $N {on|off|status|version}" >&2
         exit 1
         ;;
