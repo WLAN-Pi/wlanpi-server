@@ -1,3 +1,9 @@
+wlanpi-server (1.0.1-1) UNRELEASED; urgency=medium
+
+  * Removed non-required action files
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Thu, 30 Dec 2021 20:14:33 +0000
+
 wlanpi-server (1.0.1) UNRELEASED; urgency=medium
 
   * Completed re-org & debian packaging 
