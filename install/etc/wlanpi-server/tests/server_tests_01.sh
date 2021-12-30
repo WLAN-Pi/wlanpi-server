@@ -86,7 +86,7 @@ Test rig description:
   4. server config files are default
   5. Run tests by joining SSID 'wlanpi_server' (key = 'wifipros')
   6. SSH to 192.168.88.1 and run this test script:
-      /etc/wlanpiserver/tests/server_tests_01.sh
+      /etc/wlanpi-server/tests/server_tests_01.sh
 
 =======================================================" | tee $LOG_FILE
 
@@ -107,17 +107,17 @@ run_tests () {
   check `cat $STATUS_FILE | grep 'server'`
 
   # check we have directories expected
-  dir_exists "/etc/wlanpiserver"
+  dir_exists "/etc/wlanpi-server"
 
   # check various files exist
-  file_exists "/etc/wlanpiserver/conf/hostapd.conf"
-  file_exists "/etc/wlanpiserver/default/isc-dhcp-server"
-  file_exists "/etc/wlanpiserver/default/ufw"
-  file_exists "/etc/wlanpiserver/dhcp/dhcpd.conf"
-  file_exists "/etc/wlanpiserver/network/interfaces"
-  file_exists "/etc/wlanpiserver/sysctl/sysctl.conf"
-  file_exists "/etc/wlanpiserver/ufw/before.rules"
-  file_exists "/usr/bin/server_switcher"
+  file_exists "/etc/wlanpi-server/conf/hostapd.conf"
+  file_exists "/etc/wlanpi-server/default/isc-dhcp-server"
+  file_exists "/etc/wlanpi-server/default/ufw"
+  file_exists "/etc/wlanpi-server/dhcp/dhcpd.conf"
+  file_exists "/etc/wlanpi-server/network/interfaces"
+  file_exists "/etc/wlanpi-server/sysctl/sysctl.conf"
+  file_exists "/etc/wlanpi-server/ufw/before.rules"
+  file_exists "/usr/sbin/server_switcher"
 
   # check file symbolic links exist
   symlink_exists "/etc/network/interfaces"

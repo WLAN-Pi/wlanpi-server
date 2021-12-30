@@ -86,7 +86,7 @@ Test rig description:
   4. Power up WLAN Pi via USB/OTG connection
   5. Run tests by opening SSH session to 169.254.42.1
   6. Run this test script:
-      /etc/wlanpiserver/tests/server_tests_02.sh
+      /etc/wlanpi-server/tests/server_tests_02.sh
 
 =======================================================" | tee $LOG_FILE
 
@@ -107,7 +107,7 @@ run_tests () {
   check `cat $STATUS_FILE | grep 'classic'`
 
   # check we have directories expected
-  dir_exists "/etc/wlanpiserver"
+  dir_exists "/etc/wlanpi-server"
 
   # check various files exist after switch back
   file_exists "/etc/hostapd.conf"
