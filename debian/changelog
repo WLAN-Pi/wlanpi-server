@@ -1,3 +1,9 @@
+wlanpi-server (1.0.1) UNRELEASED; urgency=medium
+
+  * Completed re-org & debian packaging 
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Thu, 30 Dec 2021 20:10:04 +0000
+
 wlanpi-server (1.0.0) UNRELEASED; urgency=medium
 
   * Initial commit.
