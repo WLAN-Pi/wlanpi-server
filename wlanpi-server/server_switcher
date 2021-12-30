@@ -1,0 +1,211 @@
+#! /bin/bash
+#
+# server_switcher       script to switch server on/off
+#
+# Edited by Jiri Brejcha <jirka@jiribrejcha.net> based on Nigel Bowden's <wifinigel@gmail.com> mode switcher
+#
+# History:
+#
+set -e
+
+NAME=server_switcher
+DESC="Script to switch server mode on/off"
+VERSION=0.01
+STATUS_FILE="/etc/wlanpi-state"
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   exit 1
+fi
+
+###############################################################################
+#
+# Activate server mode:
+#
+# 1. Backup various existing files to allow restoration when server
+#    deactivated
+# 2. Remove a number of existing files that need to be replaced
+# 3. Create links from deleted file locations to server config files
+# 4. Create status file to indicate server is active
+# 5. Reboot the WLAN Pi to ensure clean activation
+#
+###############################################################################
+server_on () {
+
+  echo "Starting switch from classic mode to server mode"
+
+  # check what state the WLAN Pi is in classic mode
+  PI_STATUS=`cat $STATUS_FILE | grep 'classic'` || true
+  if  [ -z "$PI_STATUS" ]; then
+     echo "Failed - WLAN Pi is not in classic mode."
+     exit 1
+  fi
+
+  echo "Enabling server mode..."
+  #Backup existing config files
+  echo "Backing up existing config files..."
+  cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.serv
+  cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.serv
+  cp /etc/network/interfaces /etc/network/interfaces.serv
+  cp /etc/sysctl.conf /etc/sysctl.conf.serv
+  cp /etc/default/ufw /etc/default/ufw.serv
+  cp /etc/ufw/before.rules /etc/ufw/before.rules.serv
+  # This file may or may not exist
+  if [ -e /etc/hostapd.conf ]; then
+    cp /etc/hostapd.conf /etc/hostapd.conf.serv
+  fi
+  if [ -e /etc/ser2net.conf ]; then
+    cp /etc/ser2net.conf /etc/ser2net.conf.serv
+  fi
+  # Remove existing config files
+  echo "Removing existing config files..."
+  rm /etc/default/isc-dhcp-server
+  rm /etc/dhcp/dhcpd.conf
+  rm /etc/network/interfaces
+  rm /etc/sysctl.conf
+  rm /etc/default/ufw
+  rm /etc/ufw/before.rules
+  # This file may or may not exist
+  if [ -e /etc/hostapd.conf ]; then
+    rm /etc/hostapd.conf
+  fi
+  if [ -e /etc/ser2net.conf ]; then
+    rm /etc/ser2net.conf
+  fi
+  # Link to server config files
+  echo "Creating links to config files..."
+  ln -s /etc/wlanpiserver/default/isc-dhcp-server /etc/default/isc-dhcp-server
+  ln -s /etc/wlanpiserver/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
+  ln -s /etc/wlanpiserver/network/interfaces /etc/network/interfaces
+  ln -s /etc/wlanpiserver/conf/hostapd.conf /etc/hostapd.conf
+  ln -s /etc/wlanpiserver/sysctl/sysctl.conf /etc/sysctl.conf
+  ln -s /etc/wlanpiserver/default/ufw /etc/default/ufw
+  ln -s /etc/wlanpiserver/ufw/before.rules /etc/ufw/before.rules
+  #Intentionally using wconsole config file
+  ln -s /etc/wconsole/conf/ser2net.conf /etc/ser2net.conf
+
+  # Open up console ports on FW 
+  ufw allow 2400:2408/tcp
+  ufw allow 4800:4808/tcp
+  ufw allow 9600:9608/tcp
+  ufw allow 19200:19208/tcp
+  ufw allow 38400:38408/tcp
+  ufw allow 11520:11528/tcp
+  ufw allow 2000:2008/tcp
+
+  # Signal that wconsole active
+  echo "server" > $STATUS_FILE
+  echo "WLAN Pi will now reboot"
+  sleep 1
+  sync
+  reboot
+
+}
+
+###############################################################################
+#
+# Deactivate server:
+#
+# 1. Remove links created during activation
+# 2. Restore config files backed up during activation
+# 3. Remove firewall rules added during activation
+# 4. Remove status file to indicate server no longer active
+# 5. Reboot wlanpi to provide clean restoration of services
+#
+###############################################################################
+server_off () {
+
+  # check what state the WLAN Pi is in
+  PI_STATUS=`cat $STATUS_FILE | grep 'server'` || true
+  if  [ -z "$PI_STATUS" ]; then
+     echo "Failed - WLAN Pi is not in wconsole mode."
+     exit 1
+  fi
+
+  echo "Starting switch from server mode to classic mode"
+
+  # Remove links to config files
+  echo "Removing links to config files..."
+  unlink /etc/default/isc-dhcp-server
+  unlink /etc/dhcp/dhcpd.conf
+  unlink /etc/network/interfaces
+  unlink /etc/hostapd.conf
+  unlink /etc/sysctl.conf
+  unlink /etc/default/ufw
+  unlink /etc/ufw/before.rules
+  unlink /etc/ser2net.conf
+
+  # Restore original config files
+  echo "Restoring original config files..."
+  cp /etc/default/isc-dhcp-server.serv /etc/default/isc-dhcp-server
+  cp /etc/dhcp/dhcpd.conf.serv /etc/dhcp/dhcpd.conf
+  cp /etc/network/interfaces.serv /etc/network/interfaces
+  cp /etc/sysctl.conf.serv /etc/sysctl.conf
+  cp /etc/default/ufw.serv /etc/default/ufw
+  cp /etc/ufw/before.rules.serv /etc/ufw/before.rules
+  # This file may or may not exist
+  if [ -e /etc/hostapd.conf.serv ]; then
+    cp /etc/hostapd.conf.serv /etc/hostapd.conf
+  fi
+  if [ -e /etc/ser2net.conf.serv ]; then
+    cp /etc/ser2net.conf.serv /etc/ser2net.conf
+  fi
+  
+  # Close ports on FW
+  ufw delete allow 2400:2408/tcp
+  ufw delete allow 4800:4808/tcp
+  ufw delete allow 9600:9608/tcp
+  ufw delete allow 19200:19208/tcp
+  ufw delete allow 38400:38408/tcp
+  ufw delete allow 2000:2008/tcp
+  ufw delete allow 11520:11528/tcp
+  
+  echo "WLAN Pi will now reboot"
+  echo "classic" > $STATUS_FILE
+  sleep 1
+  sync
+  reboot
+}
+
+status () {
+  PI_STATUS=`cat $STATUS_FILE | grep 'server'` || true
+  if  [ -z "$PI_STATUS" ]; then
+    echo "server is currently disabled"
+    exit 0
+  else
+    echo "server is currently enabled"
+    exit 0
+  fi
+
+}
+
+version () {
+    N=/etc/wlanpiserver/$NAME
+        echo "Version: $N $VERSION" >&2
+        exit 1
+
+}
+
+case "$1" in
+  on)
+        server_on
+        ;;
+  off)
+        server_off
+        ;;
+  status)
+        status
+        ;;
+  install)
+        install
+        ;;
+  version)
+        version;;
+  *)
+        N=/etc/wlanpiserver/$NAME
+        echo "Usage: $N {on|off|status|version}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

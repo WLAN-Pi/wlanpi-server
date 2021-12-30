@@ -1,0 +1,16 @@
+#!/bin/bash
+
+STATUS_FILE="/etc/wlanpi-state"
+
+#This script delivers the non-persistence of the Server mode and switches the WLAN Pi back to Classic mode
+
+#FPMS adds this script to rc.local after WLAN Pi boots up in server mode
+#sudo sed -i 's|^exit 0|/etc/wlanpiserver/scripts/switch-server-mode-to-classic \&\nexit 0|' /etc/rc.local
+
+#Remove itself from startup scripts
+sed -i '/switch-server-mode-to-classic/d' /etc/rc.local
+
+#Switch to Classic mode
+/usr/bin/server_switcher off
+
+exit 0
