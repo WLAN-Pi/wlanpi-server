@@ -1,1 +1,1 @@
-opt/wlanpi-server/hotspot_switcher usr/sbin/server_switcher
+opt/wlanpi-server/server_switcher usr/sbin/server_switcher
