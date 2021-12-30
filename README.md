@@ -37,7 +37,7 @@ To change from default settings, ensure that the WLAN Pi is operating in its def
  sudo nano /etc/wlanpi-server/conf/hostapd.conf
 ```
 
-There are numerous fields you can configure to change the behaviour of the hotspot access point feature, but here are some of the more likely fields you'll want to look at and perhaps update (note that lines beginning with a # character are comments and do not affect operation):
+There are numerous fields you can configure to change the behaviour of the server mode access point feature, but here are some of the more likely fields you'll want to look at and perhaps update (note that lines beginning with a # character are comments and do not affect operation):
 
 ```
     # WLAN SSID
