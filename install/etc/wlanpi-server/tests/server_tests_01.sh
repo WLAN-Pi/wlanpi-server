@@ -9,7 +9,6 @@
 # User configurable vars
 ##########################
 MODULE=server
-VERSION=1.01
 COMMENTS="server mode test suite to verify files & processes"
 SCRIPT_NAME=$(basename $0)
 

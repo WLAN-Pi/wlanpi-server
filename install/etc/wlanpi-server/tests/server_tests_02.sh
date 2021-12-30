@@ -9,7 +9,6 @@
 # User configurable vars
 ##########################
 MODULE=server
-VERSION=1.0
 COMMENTS="server mode test suite to verify files & processes when switched back to classic mode"
 SCRIPT_NAME=$(basename $0)
 
