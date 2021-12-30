@@ -11,6 +11,6 @@ STATUS_FILE="/etc/wlanpi-state"
 sed -i '/switch-server-mode-to-classic/d' /etc/rc.local
 
 #Switch to Classic mode
-/usr/bin/server_switcher off
+/usr/sbin/server_switcher off
 
 exit 0
