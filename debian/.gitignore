@@ -1,7 +1,7 @@
-wlanpi-hotspot.*.debhelper
-wlanpi-hotspot.substvars
-wlanpi-hotspot/
-wlanpi-hotspot-*/
+wlanpi-server.*.debhelper
+wlanpi-server.substvars
+wlanpi-server/
+wlanpi-server-*/
 debhelper*
 .debhelper
 files
