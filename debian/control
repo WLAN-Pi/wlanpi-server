@@ -1,16 +1,16 @@
-Source: wlanpi-hotspot
+Source: wlanpi-server
 Section: embedded
 Priority: optional
 Maintainer: Jiri Brejcha <jirka@jiribrejcha.net>
-Build-Depends: debhelper (>=9), build-essential, hostapd
+Build-Depends: debhelper (>=9), build-essential
 Standards-Version: 3.9.8
-Homepage: https://github.com/WLAN-Pi/wlanpi-hotspot
+Homepage: https://github.com/WLAN-Pi/wlanpi-server
 
-Package: wlanpi-hotspot
+Package: wlanpi-server
 Architecture: any
 Multi-Arch: foreign
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          hostapd
-Description: WLAN Pi simple hotspot
- WLAN Pi simple hotspot.
+Description: Server mode for the WLAN Pi RPi/CM4 hardware
+ Server mode for the WLAN Pi RPi/CM4 hardware.
