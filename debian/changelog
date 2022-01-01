@@ -1,3 +1,9 @@
+wlanpi-server (1.0.2) UNRELEASED; urgency=medium
+
+  * Remove refs to usb0 as no longer required 
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sat, 01 Jan 2022 16:02:15 +0000
+
 wlanpi-server (1.0.1-1) UNRELEASED; urgency=medium
 
   * Removed non-required action files
