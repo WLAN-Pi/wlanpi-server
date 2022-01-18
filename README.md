@@ -13,8 +13,8 @@ If you plug a Wi-Fi adapter to its USB port, the WLAN Pi will broadcast wlanpi_s
 **Server mode enables DHCP server on the wired eth0 interface of the WLAN Pi. Only plug this interface to a network which is under your management. Never connect WLAN Pi in Server mode to a production network. It can distrupt production services !!!**
 
 ## Subnets
-Wired subnet: 172.16.42.0/24
-Wireless subnet: 172.16.43.0/24
+- Wired subnet: 172.16.42.0/24
+- Wireless subnet: 172.16.43.0/24
 
 ## Requirements
 
