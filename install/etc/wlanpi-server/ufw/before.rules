@@ -79,6 +79,6 @@ COMMIT
 # NAT rule to PAT the Wi-Fi network behind the Ethernet interface
 *nat
 :POSTROUTING ACCEPT [0:0]
--A POSTROUTING -s 192.168.74.0/24 -o eth0 -j MASQUERADE
+-A POSTROUTING -s 172.16.43.0/24 -o eth0 -j MASQUERADE
 
 COMMIT
