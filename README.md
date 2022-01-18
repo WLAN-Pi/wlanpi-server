@@ -13,8 +13,8 @@ If you plug a Wi-Fi adapter to its USB port, the WLAN Pi will broadcast wlanpi_s
 **Server mode enables DHCP server on the wired eth0 interface of the WLAN Pi. Only plug this interface to a network which is under your management. Never connect WLAN Pi in Server mode to a production network. It can distrupt production services !!!**
 
 ## Subnets
-Wired subnet: 192.168.73.0/24
-Wireless subnet: 192.168.74.0/24
+Wired subnet: 172.16.42.0/24
+Wireless subnet: 172.16.43.0/24
 
 ## Requirements
 
@@ -26,14 +26,14 @@ To use server mode on your WLAN Pi, you will need:
 
 It is very likely that you will not want to use this utility with the default shared key, channel and SSID. The defaults are:
 
-* shared key: wifipros
 * ssid: wlanpi_server
+* shared key: wifipros
 * channel: 6
 
 To change from default settings, ensure that the WLAN Pi is operating in its default "classic" mode. Then edit the file: /etc/wlanpi-server/conf/hostapd.conf. This can be done by opening an SSH session to the WLANPi and using the 'nano' editor:
 
 ```
- ssh wlanpi@192.168.73.1
+ ssh wlanpi@172.16.43.1
  sudo nano /etc/wlanpi-server/conf/hostapd.conf
 ```
 
@@ -54,7 +54,7 @@ There are numerous fields you can configure to change the behaviour of the serve
     channel=36
 
     # Set Country Code (Use your own country code here)
-    country_code=UK
+    country_code=GB
 ```
 
 Once you have made your changes, hit Ctrl-X in the nano editor to exit and hit "Y" to save the changes when prompted.
@@ -71,7 +71,6 @@ If you need to make any subsequent alterations to the parameters configured in h
 
 Following the WLAN Pi reboot, your configured server mode SSID should be available in the network list shown on your wireless client.
 
-Once you have joined the SSID, an IP address is assigned to your client device via DHCP and you will have access to the WLAN Pi itself (e.g. SSH to 192.168.73.1). You will be able to access features such as the built-in speedtest utility using a browser pointed at : http://192.168.74.1/
+Once you have joined the SSID, an IP address is assigned to your client device via DHCP and you will have access to the WLAN Pi itself (e.g. SSH to 172.16.43.1). You will be able to access features such as the built-in speedtest utility using a browser pointed at: http://172.16.43.1/
 
 Plug the Ethernet port of the WLAN Pi to your lab switch and it will provide IP addresses to the wired devices.
-
