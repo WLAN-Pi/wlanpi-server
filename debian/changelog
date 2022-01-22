@@ -1,3 +1,9 @@
+wlanpi-server (1.0.5) unstable; urgency=medium
+
+  * Generates unique SSID using eth0 MAC address
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Sat, 22 Jan 2022 16:19:00 +0000
+ 
 wlanpi-server (1.0.4) unstable; urgency=medium
 
   * Fixes DHCP address range for eth0
