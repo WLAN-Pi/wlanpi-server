@@ -40,6 +40,21 @@ server_on () {
      echo "Failed - WLAN Pi is not in classic mode."
      exit 1
   fi
+  
+  echo "Creating a unique SSID"
+  # Get the last 3 chars of eth0 MAC address
+  LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
+  # Check if we got 3 chars
+  if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
+    echo "Failed parsing eth0 MAC address during unique SSID creation"
+    exit 1
+  fi
+  # Configure the unique SSID
+  if grep -q -E "^?ssid=" /etc/wlanpi-server/conf/hostapd.conf; then
+    sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi Server $LAST_3_CHARS_MAC/" /etc/wlanpi-server/conf/hostapd.conf
+  else
+    echo "ssid=WLAN Pi Server $LAST_3_CHARS_MAC" >> /etc/wlanpi-server/conf/hostapd.conf
+  fi
 
   echo "Enabling server mode..."
   #Backup existing config files
