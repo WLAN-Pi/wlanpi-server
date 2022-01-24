@@ -1,4 +1,4 @@
-wlanpi-server (1.0.6) unstable; urgency=medium
+wlanpi-server (1.0.6-1) unstable; urgency=medium
 
   * Generates random WPA2 passphrase
 
