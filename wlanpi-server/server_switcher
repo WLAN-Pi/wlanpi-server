@@ -55,6 +55,13 @@ server_on () {
   else
     echo "ssid=WLAN Pi Server $LAST_3_CHARS_MAC" >> /etc/wlanpi-server/conf/hostapd.conf
   fi
+  
+  echo "Generating a random WPA2 passphrase"
+  PASSPHRASE=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12  ; echo)
+  # Only generate a random passphrase if the user has not configured their own one
+  if grep -q -E "^?wpa_passphrase=wifipros" /etc/wlanpi-server/conf/hostapd.conf; then
+    sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" /etc/wlanpi-server/conf/hostapd.conf
+  fi
 
   echo "Enabling server mode..."
   #Backup existing config files
