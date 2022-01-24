@@ -1,2 +1,2 @@
-/install/etc/wlanpi-server /etc
-/wlanpi-server /opt
+install/etc/wlanpi-server etc
+wlanpi-server opt
