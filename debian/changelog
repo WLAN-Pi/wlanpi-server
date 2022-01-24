@@ -2,7 +2,7 @@ wlanpi-server (1.0.6) unstable; urgency=medium
 
   * Generates random WPA2 passphrase
 
- -- Jiri Brejcha <jirka@jiribrejcha.net>  Sat, 24 Jan 2022 19:43:00 +0000
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Mon, 24 Jan 2022 19:43:00 +0000
 
 wlanpi-server (1.0.5) unstable; urgency=medium
 
