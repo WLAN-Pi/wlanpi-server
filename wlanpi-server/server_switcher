@@ -40,7 +40,7 @@ server_on () {
      echo "Failed - WLAN Pi is not in classic mode."
      exit 1
   fi
-  
+
   echo "Creating a unique SSID"
   # Get the last 3 chars of eth0 MAC address
   LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
@@ -55,7 +55,7 @@ server_on () {
   else
     echo "ssid=WLAN Pi Server $LAST_3_CHARS_MAC" >> /etc/wlanpi-server/conf/hostapd.conf
   fi
-  
+
   echo "Generating a random WPA2 passphrase"
   PASSPHRASE=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12  ; echo)
   # Only generate a random passphrase if the user has not configured their own one
@@ -115,6 +115,9 @@ server_on () {
   ufw allow 11520:11528/tcp
   ufw allow 2000:2008/tcp
 
+  #Disable wpa_supplicant which conflicts with hostapd
+  systemctl disable wpa_supplicant
+
   # Enable services to start after reboot
   systemctl enable hostapd ser2net isc-dhcp-server
 
@@ -124,7 +127,6 @@ server_on () {
   sleep 1
   sync
   reboot
-
 }
 
 ###############################################################################
@@ -187,6 +189,9 @@ server_off () {
   
   # Disable services to start after reboot
   systemctl disable hostapd ser2net isc-dhcp-server
+
+  #Enable wpa_supplicant
+  systemctl enable wpa_supplicant
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
