@@ -12,6 +12,9 @@ NAME=server_switcher
 DESC="Script to switch server mode on/off"
 VERSION=0.01
 STATUS_FILE="/etc/wlanpi-state"
+NETWORKD_DIR=/etc/systemd/network
+CLASSIC_MODE_NETWORK_DIR=/etc/systemd/network.classic
+SERVER_MODE_NETWORK_DIR=/etc/wlanpi-server/install/etc/systemd/network
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root"
@@ -22,12 +25,16 @@ fi
 #
 # Activate server mode:
 #
-# 1. Backup various existing files to allow restoration when server
-#    deactivated
-# 2. Remove a number of existing files that need to be replaced
-# 3. Create links from deleted file locations to server config files
-# 4. Create status file to indicate server is active
-# 5. Reboot the WLAN Pi to ensure clean activation
+#  1. Check we're in classic mode
+#  2. Create custom SSID if set to factory default
+#  3. Create randomised PSK if not already done
+#  4. Move networkd files in to place for new networking config after reboot
+#  5. Backup various existing files to allow restoration when server
+#     deactivated
+#  6. Remove a number of existing files that need to be replaced
+#  7. Create links from deleted file locations to server config files
+#  8. Create status file to indicate server is active
+#  9. Reboot the WLAN Pi to ensure clean activation
 #
 ###############################################################################
 server_on () {
@@ -65,10 +72,14 @@ server_on () {
 
   echo "Enabling server mode..."
   #Backup existing config files
+
+  # move classic mode network files to own networkd dir
+  sudo mv $NETWORKD_DIR/*.net* $CLASSIC_MODE_NETWORK_DIR
+
+  # move server mode files in to live networkd dir
+  sudo mv $SERVER_MODE_NETWORK_DIR/*.net* $NETWORKD_DIR 
+
   echo "Backing up existing config files..."
-  cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.serv
-  cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.serv
-  cp /etc/network/interfaces /etc/network/interfaces.serv
   cp /etc/sysctl.conf /etc/sysctl.conf.serv
   cp /etc/default/ufw /etc/default/ufw.serv
   cp /etc/ufw/before.rules /etc/ufw/before.rules.serv
@@ -81,9 +92,6 @@ server_on () {
   fi
   # Remove existing config files
   echo "Removing existing config files..."
-  rm /etc/default/isc-dhcp-server
-  rm /etc/dhcp/dhcpd.conf
-  rm /etc/network/interfaces
   rm /etc/sysctl.conf
   rm /etc/default/ufw
   rm /etc/ufw/before.rules
@@ -96,9 +104,6 @@ server_on () {
   fi
   # Link to server config files
   echo "Creating links to config files..."
-  ln -s /etc/wlanpi-server/default/isc-dhcp-server /etc/default/isc-dhcp-server
-  ln -s /etc/wlanpi-server/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
-  ln -s /etc/wlanpi-server/network/interfaces /etc/network/interfaces
   ln -s /etc/wlanpi-server/conf/hostapd.conf /etc/hostapd/hostapd.conf
   ln -s /etc/wlanpi-server/sysctl/sysctl.conf /etc/sysctl.conf
   ln -s /etc/wlanpi-server/default/ufw /etc/default/ufw
@@ -116,7 +121,7 @@ server_on () {
   ufw allow 2000:2008/tcp
 
   # Enable services to start after reboot
-  systemctl enable hostapd ser2net isc-dhcp-server
+  systemctl enable hostapd ser2net
 
   # Signal that wconsole active
   echo "server" > $STATUS_FILE
@@ -130,11 +135,13 @@ server_on () {
 #
 # Deactivate server:
 #
-# 1. Remove links created during activation
-# 2. Restore config files backed up during activation
-# 3. Remove firewall rules added during activation
-# 4. Remove status file to indicate server no longer active
-# 5. Reboot wlanpi to provide clean restoration of services
+# 1. Check we're in server mode
+# 2. Move classic mode networkd files back into place
+# 3. Remove links created during activation
+# 4. Restore config files backed up during activation
+# 5. Remove firewall rules added during activation
+# 6. Remove status file to indicate server no longer active
+# 7. Reboot wlanpi to provide clean restoration of services
 #
 ###############################################################################
 server_off () {
@@ -148,11 +155,14 @@ server_off () {
 
   echo "Starting switch from server mode to classic mode"
 
+  # move server mode network files to own networkd dir
+  sudo mv $NETWORKD_DIR/*.net* $SERVER_MODE_NETWORK_DIR
+
+  # move classic mode files in to live networkd dir
+  sudo mv $CLASSIC_MODE_NETWORK_DIR/*.net* $NETWORKD_DIR
+
   # Remove links to config files
   echo "Removing links to config files..."
-  unlink /etc/default/isc-dhcp-server
-  unlink /etc/dhcp/dhcpd.conf
-  unlink /etc/network/interfaces
   unlink /etc/hostapd/hostapd.conf
   unlink /etc/sysctl.conf
   unlink /etc/default/ufw
@@ -161,9 +171,6 @@ server_off () {
 
   # Restore original config files
   echo "Restoring original config files..."
-  cp /etc/default/isc-dhcp-server.serv /etc/default/isc-dhcp-server
-  cp /etc/dhcp/dhcpd.conf.serv /etc/dhcp/dhcpd.conf
-  cp /etc/network/interfaces.serv /etc/network/interfaces
   cp /etc/sysctl.conf.serv /etc/sysctl.conf
   cp /etc/default/ufw.serv /etc/default/ufw
   cp /etc/ufw/before.rules.serv /etc/ufw/before.rules
@@ -185,7 +192,7 @@ server_off () {
   ufw delete allow 11520:11528/tcp
   
   # Disable services to start after reboot
-  systemctl disable hostapd ser2net isc-dhcp-server
+  systemctl disable hostapd ser2net
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
