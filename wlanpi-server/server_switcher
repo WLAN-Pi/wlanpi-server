@@ -13,8 +13,8 @@ DESC="Script to switch server mode on/off"
 VERSION=0.01
 STATUS_FILE="/etc/wlanpi-state"
 NETWORKD_DIR=/etc/systemd/network
-CLASSIC_MODE_NETWORK_DIR=/etc/systemd/network.classic
-SERVER_MODE_NETWORK_DIR=/etc/wlanpi-server/install/etc/systemd/network
+CLASSIC_MODE_NETWORK_DIR="/etc/systemd/network.classic"
+SERVER_MODE_NETWORK_DIR="/etc/wlanpi-server/systemd/network"
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root"
