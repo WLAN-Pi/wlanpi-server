@@ -1,4 +1,3 @@
-
 wlanpi-server (1.0.11) unstable; urgency=medium
 
   * Uses only easily readable characters in passphrase
