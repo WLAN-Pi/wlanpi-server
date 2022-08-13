@@ -10,7 +10,7 @@ set -e
 
 NAME="server_switcher"
 DESC="Script to switch server mode on/off"
-VERSION="1.0.11"
+VERSION="2.0.0"
 STATUS_FILE="/etc/wlanpi-state"
 NETWORKD_DIR="/etc/systemd/network"
 WPA_DIR="/etc/wpa_supplicant"
