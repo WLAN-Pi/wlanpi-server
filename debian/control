@@ -10,5 +10,5 @@ Package: wlanpi-server
 Architecture: any
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${shlibs:Depends}, hostapd, isc-dhcp-server, ser2net
-Description: Server mode for the WLAN Pi RPi/CM4 hardware
+Description: WLAN Pi - server mode for RPi/CM4 hardware
  Server mode for the WLAN Pi RPi/CM4 hardware.
