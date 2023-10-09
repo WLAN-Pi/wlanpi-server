@@ -1,9 +1,9 @@
 
-wlanpi-server (1.0.11) unstable; urgency=medium
+wlanpi-server (1.0.12) unstable; urgency=medium
 
-  * Uses only easily readable characters in passphrase
+  * Use 5 GHz channel 36 by default
 
- -- Jiri Brejcha <jirka@jiribrejcha.net>  Mon, 06 Jun 2022 21:40:00 +0000
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Mon, 09 Oct 2023 23:33:00 +0000
 
 wlanpi-server (1.0.10) unstable; urgency=medium
 
