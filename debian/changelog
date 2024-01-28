@@ -1,3 +1,9 @@
+wlanpi-server (1.0.14) unstable; urgency=medium
+
+  * Using iw instead of iwconfig (deprecated).
+
+ -- Adrian Granados <adrian@intuitibits.com>  Sat, 27 Jan 2024 00:00:00 -0500
+
 wlanpi-server (1.0.13) unstable; urgency=medium
 
   * Fixed: Leading - character in passphrase broke hostapd

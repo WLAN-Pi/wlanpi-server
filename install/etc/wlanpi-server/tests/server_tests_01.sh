@@ -138,13 +138,13 @@ run_tests () {
   info "Checking hostapd SSID is default"
   check `cat /etc/hostapd/hostapd.conf | grep ssid="${SSID}"`
 
-  # check wlan port is in correct state (Mode:Master)
-  info "Checking wlan adapter in master mode"
-  check `iwconfig wlan0 | grep 'Mode:Master'`
+  # check wlan port is in correct state (type AP)
+  info "Checking wlan adapter in AP mode"
+  check `iw dev wlan0 info | grep "type AP"`
 
   # check wlan broadcasting correct SSID
   info "Checking wlan adapter broadcasting correct SSID ($SSID)"
-  check `iwconfig wlan0 | grep ESSID:\"${SSID}\"`
+  check `iw dev wlan0 info | grep "ssid ${SSID}"`
 
   # check wlan0 up and running with correct IP address
   wlan0_ip=172.16.43.1

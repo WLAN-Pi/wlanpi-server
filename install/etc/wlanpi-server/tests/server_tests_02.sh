@@ -127,9 +127,9 @@ run_tests () {
   symlink_not "/etc/default/ufw"
   symlink_not "/etc/ufw/before.rules"
 
-  # check wlan port is no longer Mode:Master
-  info "Checking wlan adapter no longer master mode"
-  check_not `iwconfig wlan0 | grep 'Mode:Master'`
+  # check wlan port is no longer type AP
+  info "Checking wlan adapter no longer type AP"
+  check_not `iw dev wlan0 info | grep "type AP"`
 
   # check wlan0 no longer running with default IP
   wlan0_ip=172.16.43.1
