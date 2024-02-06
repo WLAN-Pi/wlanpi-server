@@ -1,3 +1,9 @@
+wlanpi-server (1.0.15) unstable; urgency=medium
+
+  * Using channel 1 (2.4 GHz).
+
+ -- Adrian Granados <adrian@intuitibits.com>  Tue, 06 Feb 2024 00:00:00 -0500
+
 wlanpi-server (1.0.14) unstable; urgency=medium
 
   * Using iw instead of iwconfig (deprecated).
