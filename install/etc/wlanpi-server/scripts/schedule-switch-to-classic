@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#This script delivers the non-persistence of the Server mode and switches the WLAN Pi back to Classic mode
-
-#Adds this script to rc.local after WLAN Pi boots up in server mode, mode will change to Classic at the next boot
-#sudo sed -i 's|^exit 0|/etc/wlanpi-server/scripts/switch-server-mode-to-classic \nexit 0|' /etc/rc.local
-#sync
-
-exit 0
+# This script used to use /etc/rc.local for scheduling Sever mode nonpersistence switching to Classic mode
+# It is no longer used and is left here for compatibility purposes only
+# Server mode nonpersistence is now fully handled by wlanpi-server-nonpersistence.service

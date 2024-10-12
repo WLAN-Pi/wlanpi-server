@@ -69,7 +69,7 @@ server_on () {
   fi
 
   echo "Enabling server mode ..."
-  #Backup existing config files
+  # Backup existing config files
   echo "Backing up existing config files ..."
   cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.serv
   cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.serv
@@ -108,10 +108,10 @@ server_on () {
   ln -s /etc/wlanpi-server/sysctl/sysctl.conf /etc/sysctl.conf
   ln -s /etc/wlanpi-server/default/ufw /etc/default/ufw
   ln -s /etc/wlanpi-server/ufw/before.rules /etc/ufw/before.rules
-  #Intentionally using wconsole config file
+  # Intentionally using wconsole config file
   ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
 
-  # Open up console ports on FW 
+  # Open up console ports on FW
   ufw allow 2400:2408/tcp
   ufw allow 4800:4808/tcp
   ufw allow 9600:9608/tcp
@@ -123,7 +123,10 @@ server_on () {
   # Enable services to start after reboot
   systemctl enable hostapd ser2net isc-dhcp-server
 
-  # Signal that wconsole active
+  # Signal that we want to stay in Server mode after reboot
+  touch "/etc/wlanpi-stay-in-server-mode"
+
+  # Signal that Server mode is active
   echo "server" > $STATUS_FILE
   echo "WLAN Pi will now reboot"
   sleep 1
@@ -145,7 +148,7 @@ server_on () {
 
 server_off () {
 
-  # check what state the WLAN Pi is in
+  # Check what state the WLAN Pi is in
   PI_STATUS=`cat $STATUS_FILE | grep 'server'` || true
   if  [ -z "$PI_STATUS" ]; then
      echo "Failed - WLAN Pi is not in server mode."

@@ -1,0 +1,10 @@
+[Unit]
+Description=WLAN Pi Server mode non-persistence service switches Server mode back to Classic mode after reboot
+
+[Service]
+ExecStart=/etc/wlanpi-server/scripts/wlanpi-server-nonpersistence-service.sh
+WorkingDirectory=/etc/wlanpi-server/scripts/
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
