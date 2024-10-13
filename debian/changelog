@@ -1,4 +1,4 @@
-wlanpi-server (1.0.17) unstable; urgency=medium
+wlanpi-server (1.0.17-1) unstable; urgency=medium
 
   * Server mode nonpersistence is now handled by wlanpi-server-nonpersistence.service
 

@@ -3,12 +3,16 @@
 # "wlanpi-server" postinst script
 #
 
-# hostapd is installed with service masked, need to umask 
+# hostapd is installed with service masked, need to umask
 systemctl unmask hostapd
 
 # stop & disable hostapd after installed
 # as not needed until we flip modes
+echo "Stopping hostapd"
 systemctl stop hostapd
 systemctl disable hostapd
+
+echo "Enabling wlanpi-server-nonpersistence.service"
+systemctl enable wlanpi-server-nonpersistence
 
 exit 0
