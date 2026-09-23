@@ -38,7 +38,7 @@ jobs:
       - name: Archive artifacts and upload to GitHub
         uses: actions/upload-artifact@v7
         with:
-          name: wlanpi-chat-bot-${{ matrix.distro }}-${{ matrix.arch }}
+          name: wlanpi-server-${{ matrix.distro }}-${{ matrix.arch }}
           path: ${{ steps.build-debian-package.outputs.deb-package }}
 
   slack-workflow-status:
